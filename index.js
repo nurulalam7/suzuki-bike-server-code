@@ -240,6 +240,20 @@ async function run(){
       //   res.json(result)
       // })
 
+      //  for admin user 
+      app.get('/users/:email',async(req,res)=>{
+        const email=req.params.email;
+        const query={email:email};
+        const user=await userCollection.findOne(query);
+        let isadmin=false;
+        if(user?.role ==='admin'){
+          isadmin=true;
+
+        }
+        res.json({admin: isadmin});
+
+      })
+
         
 
         // post api for user 
@@ -267,14 +281,14 @@ async function run(){
 
         // for admin 
 
-        // app.put('users/makeadmin',async(req,res)=>{
-        //   const user=req.body;
-        //   console.log('put',user);
-        //   const filter={email:user.email};
-        //   const updateDoc={$set:{role:'admin'}};
-        //   const result=await userCollection.updateOne(filter.updateDoc);
-        //   res.json(result);
-        // })
+        app.put('/users/admin',async(req,res)=>{
+          const user=req.body;
+         console.log('put',user);
+          const filter={email:user.email};
+          const updateDoc={$set:{role:'admin'}};
+          const result=await userCollection.updateOne(filter,updateDoc);
+          res.json(result);
+        })
 
        
        
