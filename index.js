@@ -36,14 +36,7 @@ async function run(){
          
         })
 
-         // update user 
-       app.get('/orders/:id',async(req,res)=>{
-        const id=req.params.id;
-        const query={_id:ObjectId(id)};
-        const user=await ordercollection.findOne(query);
-        console.log('load user with id', id);
-        res.send(user);
-    })
+        
 
         app.get('/orders',async(req,res)=>{
           const cursor=ordercollection.find({});
@@ -81,6 +74,18 @@ async function run(){
       res.json(result);
      })
 
+      // update user 
+      app.get('/orders/:id',async(req,res)=>{
+        const id=req.params.id;
+        const query={_id:ObjectId(id)};
+        const user=await ordercollection.findOne(query);
+        console.log('load user with id', id);
+        res.send(user);
+    })
+
+
+
+
       // next update api 
       app.put('/orders/:id',async(req,res)=>{
         const id=req.params.id;
@@ -100,6 +105,15 @@ async function run(){
         console.log(result);
         res.send(result);
     })
+
+     // show only user information by login user 
+       app.get('/orders/:email',async(req,res)=>{
+      const email=req.params.email;
+      console.log(email);
+      const query={email:email}
+      const result=await ordercollection.find(query).toArray();
+      res.send(result);
+     })
 
 
       
@@ -150,6 +164,22 @@ async function run(){
   
           res.json(result)
         })
+
+        // delete sevice 
+
+        app.delete('/services/:id',async(req,res)=>{
+          const id=req.params.id;
+          const query={_id:ObjectId(id)};
+          const result = await servicescollection.deleteOne(query);
+          
+    
+          console.log('delete',result);
+         
+          res.json(result);
+         })
+    
+
+
 
         // for review 
         app.post('/review',async(req,res)=>{
@@ -221,15 +251,16 @@ async function run(){
         })
 
         // user update 
-        // app.put('/users',async(req,res)=>{
-        //   const user=req.body;
-        //   console.log('put',user);
-        //   const filter={email:user.email}
-        //   const options={upsert:true};
-        //   const updateDoc={$set:user};
-        //   const result=await userCollection.updateOne(filter,updateDoc,options);
-        //   res.json(result);
-        // })
+        app.put('/users',async(req,res)=>{
+          const user=req.body;
+          console.log('put',user);
+          const filter={email:user.email}
+          const options={upsert:true};
+          const updateDoc={$set:user};
+          const result=await userCollection.updateOne(filter,updateDoc,options);
+          console.log(result)
+          res.json(result);
+        })
 
 
 
