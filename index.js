@@ -263,7 +263,7 @@ async function run(){
           console.log(result);
           res.json(result)
         })
-        new
+        // new
 
         // user update 
         app.put('/users',async(req,res)=>{
@@ -276,6 +276,8 @@ async function run(){
           console.log(result)
           res.json(result);
         })
+
+        // for admin 
 
 
 
